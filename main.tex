@@ -1,4 +1,6 @@
-\documentclass[6pt,landscape]{article}
+\documentclass[5pt,landscape]{article}
+%\usepackage{fontspec}
+%\setsansfont{Roboto Condensed}
 \usepackage{multicol}
 \usepackage{calc}
 \usepackage{ifthen}
@@ -7,24 +9,19 @@
 \usepackage{color,graphicx,overpic}
 \usepackage{hyperref}
 \usepackage{gensymb}
+\usepackage[sfdefault, condensed]{roboto}
+\geometry{top=0.3cm,left=0.3cm,right=0.3cm,bottom=0.3cm}
 
-\pdfinfo{
-  /Title (example.pdf)
-  /Creator (TeX)
-  /Producer (pdfTeX 1.40.0)
-  /Author (Seamus)
-  /Subject (Example)
-  /Keywords (pdflatex, latex,pdftex,tex)}
 
 % This sets page margins to .5 inch if using letter paper, and to 1cm
 % if using A4 paper. (This probably isn't strictly necessary.)
 % If using another size paper, use default 1cm margins.
-\ifthenelse{\lengthtest { \paperwidth = 11in}}
-    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
-    {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
-        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
-        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
-    }
+%\ifthenelse{\lengthtest { \paperwidth = 11in}}
+%    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+%    {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+%        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+%        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+%    }
 
 % Turn off header and footer
 \pagestyle{empty}
@@ -198,7 +195,7 @@ E: Potentiometer for angle measurements.
 \textbf{Modulating sensors:}\\
 Measure desired quantity by modulating\\
 Additional source with modulated energy. Also adds error.
-E: Non0contact displacement measrement (rotating disk)
+E: Non0contact displacement measrement (rotating disk)\\
 \textbf{Analog vs. Digital:}\\
 Analog: time and value continuous\\
 Digital: Discrete outputs\\
@@ -224,7 +221,103 @@ Best use 4point full bridge\\
 $ V_{\mathrm{diff}}=v_{2}-v_{1}=\frac{\Delta R}{R} \cdot V_{\mathrm{bias}} $\\
 Sensitivity $ S = 45mV/V$ excitation for 1V input\\
 Accuracy $ A = \frac{v_{\mathrm{diff}}\left(\frac{\Delta R}{R}\right)-V_{\mathrm{diff}, \text { lin }}\left(\frac{\Delta R}{R}\right)}{V_{\mathrm{diff}}\left(\frac{\Delta R}{R}\right)} $ \\
-Deviation from the ideal bridge  
+Deviation from the ideal bridge
+\subsection{BridgeParameters}
+\textbf{Bridge resistance: } Unloaded $ R $ across the signal terminals\\
+\textbf{Offset error} Outputvoltage at 0 input\\
+\textbf{Drift:} Outputchange conditioned on environmental condition
+\subsection{Differential/ Commonmode signals}
+\textbf{Recall:} $ V_{1}=\frac{1}{2} \cdot\left(1-\frac{\Delta R}{R}\right) \cdot V_{\text {bias }}, \quad v_{2}=\frac{1}{2} \cdot\left(1+\frac{\Delta R}{R}\right) \cdot V_{\text {bias }} $\\
+\textbf{Differential signal:} $ V_{\mathrm{diff}}=V_{2}-V_{1}=\frac{\Delta R}{R} \cdot V_{\mathrm{bias}} $\\
+\textbf{Common-mode signal:} $ V_{\mathrm{CM}}=\frac{v_{2}+v_{1}}{2}=\frac{V_{\text {bias }}}{2} $
+\includegraphics[width=\columnwidth]{images/common_mode_amp.png}\\
+\textbf{DiffGain:} $ V_{\text {out }}=A_{\text {DM }} \cdot V_{\text {inDM }} $\\
+\textbf{CMMGain:} $ V_{\text {out }}=A_{\mathrm{CM}} \cdot v_{\text {inCM }} $\\
+Ideally $ A_{cm} $ is 0 or $ A_{cm} \ll  A_{dm}$\\
+Commonmode rejection ratio(CMRR): $ \mathrm{CMRR} \triangleq\left|\frac{A_{\mathrm{DM}}}{A_{\mathrm{CM}}}\right|=\left|\frac{\mathrm{d} v_{\mathrm{out}} / \mathrm{d} v_{\mathrm{inDM}}}{\mathrm{d} v_{\mathrm{out}} / \mathrm{d} v_{\mathrm{inCM}}}\right| $\\
+Often in \textbf{dB}\\
+\textbf{Opampbase difference aplifier:}\\
+\includegraphics[width=\columnwidth]{images/diffbased_opamp.png}\\
+1st: $ A(s) = \infty, R_2 = R_2' = \alpha \cdot R_1 = \alpha R_1'$\\
+$ A_{DM} = - \alpha, A_{CM} =0, CMRR = \infty $ \\
+$ \begin{array}{l}
+2^{\text {nd }} \text { assume } A(s)=\infty, R_{2}=\alpha \cdot R_{1}, \\
+R_{2}^{\prime}=(\alpha+\Delta \alpha) \cdot R_{1}^{\prime}, R_{1}^{\prime}=R_{1}+\Delta R
+\end{array} $
+$ 
+A_{\mathrm{DM}} =-\left( \alpha+\frac{\Delta \alpha}{2 \cdot(1+\alpha+\Delta \alpha)} \right)$ \\
+$A_{\mathrm{CM}} =\frac{\Delta \alpha}{1+\alpha+\Delta \alpha} $\\
+$\mathrm{CMRR} =-\frac{1}{2}+\frac{\alpha \cdot(1+\alpha+\Delta \alpha)}{\Delta \alpha}
+$\\
+3d: $ A(s)=A_{\mathrm{DC}} /\left(1+s \cdot \frac{A_{\mathrm{DC}}}{\mathrm{GBW}}\right) $\\
+$ A_{\mathrm{DM}} =-\left(\alpha+\frac{\Delta \alpha}{2 \cdot(1+\alpha+\Delta \alpha)}\right) \cdot \frac{1}{1+\frac{1}{A_{\mathrm{DC}}}+\frac{\alpha}{A_{\mathrm{DC}}}+(1+\alpha) \cdot \frac{s}{\mathrm{GBW}}} $\\
+$A_{\mathrm{CM}} =\frac{\Delta \alpha}{1+\alpha+\Delta \alpha} \cdot \frac{1}{1+\frac{1}{A_{\mathrm{DC}}}+\frac{\alpha}{A_{\mathrm{DC}}}+(1+\alpha) \cdot \frac{s}{\mathrm{GBW}}}$ \\
+$\mathrm{CMRR} =-\frac{1}{2}+\frac{\alpha \cdot(1+\alpha+\Delta \alpha)}{\Delta \alpha}$
+\section{Magnetic Field Sensors}
+$ V_{\text {hall }}=G \cdot \frac{\mu \cdot \rho}{h} \cdot l \cdot B=G \cdot \frac{1}{e \cdot n \cdot h} \cdot l \cdot B=S_{l} \cdot l \cdot B $
+G: geometry factor
+\textbf{Noise sources:}\\
+- Thermal noise\\
+-1/f noise \\
+-Noise of conditioning electronics\\
+Noise power: $ V_{noise} \sqrt{4kT \cdot R \cdot \Delta f} $\\
+Signal power: $ V_{hall} S_I \cdot I \cdot B $\\
+Resolution: $ B_{\min } \hat{\wedge} \frac{V_{\text {noise }}}{V_{\text {hall }} / B}=\frac{\sqrt{4 k T \cdot R \cdot \Delta f}}{S_{l} \cdot I} $\\
+With $ S_I = \frac{\mu \cdot \rho}{h\cdot e \cdot n} \cdot G $\\
+At $ B=0 $ Hall plate can be modeled as wheatstone bridge, non-uniform stress causes intrinsic offset(5 to 30mT)\\
+Cancel intrinsic offset by coupling $ \degree  $ turned sensors, current and sense ports are swapped\\
+Idea: Hall voltage is in phase and gradient caused offsets are than $ 180 \degree $ out of phase\\
+\textbf{Spinning current method:}\\
+Sense and current ports are switched every clock cycle\\
+Idea: A DC component equal to the offset and a frequency component proportional to the hall voltage is produced \textbf{(Fourier Expansion of a square wave})\\
+By modulating the information to the clock frequency noise and offset are greatly mitigated.\\
+\includegraphics[width=\columnwidth]{images/switched_hall_system.png}
+Multiplying by 1 and -1 to demodulate back to low frequency. \\
+Low pass stage to remove signal around the 2nd harmonic\\
+This allow to see the base noise floor of the sensor not 1/f noise.\\
+In the conventional implementation 2 bias currents are used in the low power configuration the bias form the plate is reused for the amplifier.\\
+\subsection{Temperature Sensors}
+Seebeck effect: Convert temp. gradient to electromotive force
+$ F(T)  \hat{=} \int_{T_{stand.}}^{T} (S_{+} (T') - S_- (T')) dT'   $ $ \rightarrow $ $ E_{emf} = F(T_{sense} - F(T_{ref})$
+\textbf{Temperature stable references:}\\
+$ V_{\mathrm{REF}}(T)=V_{\mathrm{CTAT}}(T)+K \cdot V_{\mathrm{PTAT}}(T) $\\
+Bandgap reference:
+\includegraphics[width=\columnwidth]{images/bandgapreference.png}
+PTAT: Proportional to absolute temperature\\
+CTAT: Complementary to absolute temperature\\
+Scale one slope and add the function for a temp. constant reference\\
+This can be built with a diode or a BJT with a shorted base and collector\\
+Butt current is also temperature dependent so use diff pair.
+$ V_{\text {PTAT }}=\Delta V_{\text {EB }}=V_{\text {EB1 }}-V_{\text {EB2 }} \approx $\\
+$ \frac{k T}{q} \cdot \ln \left[\frac{I_{q} \cdot I_{S}^{\prime} \cdot A_{E 2}}{I_{S}^{\prime} \cdot A_{E 1} \cdot I_{q}}\right]=\frac{k T}{q} \cdot \ln \left[\frac{A_{E 2}}{A_{E 1}}\right] $\\
+Scale currents or diodes to make equal bias\\
+$ V_{\mathrm{EB}}=\underbrace{E_{g} / q}_{V_{G}}-\underbrace{\frac{k T}{q}}_{U_{T}} \cdot \ln \left(\frac{I_{s}^{\prime}}{I_{D}}\right)=V_{G}-U_{T} \cdot \ln \left(\frac{K_{1} \cdot T^{\gamma}}{I_{D}}\right) $\\
+$ V_G \approx V_{G0K} - a \cdot T  $\\
+With $ I_S' > I_D $ but also temperature dependent $ \rightarrow $ curved CTAT.\\
+\textbf{Combine CTAT and PTAT:}
+Series: $ V_{\mathrm{REF}}=I_{\mathrm{PTAT}} \cdot R_{2}+V_{\mathrm{CTAT}}=\frac{R_{2}}{R_{1}} \cdot V_{\mathrm{PTAT}}+V_{\mathrm{CTAT}} $\\
+Parallel: $ V_{\mathrm{REF}}=\left(I_{\mathrm{PTAT}}+I_{\mathrm{CTAT}}\right) \cdot R_{3}=\frac{R_{3}}{R_{1}} \cdot V_{\mathrm{PTAT}}+\frac{R_{3}}{R_{2}} \cdot V_{\mathrm{CTAT}} $\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{multicols*}
 \end{document}
 
