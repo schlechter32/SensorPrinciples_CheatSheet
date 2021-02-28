@@ -297,18 +297,66 @@ With $ I_S' > I_D $ but also temperature dependent $ \rightarrow $ curved CTAT.\
 \textbf{Combine CTAT and PTAT:}
 Series: $ V_{\mathrm{REF}}=I_{\mathrm{PTAT}} \cdot R_{2}+V_{\mathrm{CTAT}}=\frac{R_{2}}{R_{1}} \cdot V_{\mathrm{PTAT}}+V_{\mathrm{CTAT}} $\\
 Parallel: $ V_{\mathrm{REF}}=\left(I_{\mathrm{PTAT}}+I_{\mathrm{CTAT}}\right) \cdot R_{3}=\frac{R_{3}}{R_{1}} \cdot V_{\mathrm{PTAT}}+\frac{R_{3}}{R_{2}} \cdot V_{\mathrm{CTAT}} $\\
-
-
-
-
-
-
-
-
-
-
-
-
+\subsection{Capa. Sensor Readout}
+\includegraphics[width=\columnwidth]{images/capa_sensors.png}
+1: $ \Delta C=C-C_{0}=\varepsilon \cdot \frac{W}{h} \cdot \Delta x $\\
+2: $ \Delta C =  \frac{\varepsilon \cdot A}{h} \cdot \frac{\Delta z / h}{1+\Delta z h} \approx \frac{\varepsilon \cdot A}{h^{2}} \cdot \Delta z$\\
+3: $ \Delta C = \varepsilon \cdot \frac{A}{h} \cdot\left(\frac{2 \cdot \Delta z / h}{1-[\Delta z / h]^{2}}\right)=\frac{2 \cdot \varepsilon \cdot A}{h^{2}} \cdot \Delta z $\\
+\textbf{OpenLoop readout:} \\
+\includegraphics[width=\columnwidth]{images/amplifier_capa.png}
+\textbf{ChargeAmp:}$ V_{\text {out }}=\frac{C_{\text {sense }}}{C_{\mathrm{FB}}} \cdot V_{\mathrm{ex}} $
+\textbf{ChargeAmpNonideal:}$ \frac{V_{\text {out }}}{V_{\text {in }}}=-\frac{j \omega \cdot R_{\mathrm{FB}} C_{\text {in }}}{\left(1+\frac{j \omega}{\mathrm{GBW}}\right) \cdot\left(1+\frac{j \omega}{\omega_{\mathrm{FB}}}\right)} $\\
+\textbf{VoltAmp:} $ v_{\text {out }}=A_{v} \cdot \frac{C_{\text {sense }}}{C_{\text {sense }}+C_{\text {ref }}} V_{\text {ex }} $\\
+\textbf{TransImpAmp:} $ v_{\text {out }}=s \cdot R_{\mathrm{FB}} C_{\text {sense }} \cdot v_{e x} $\\
+\includegraphics[width=\columnwidth]{images/dc_pot_capa.png}\\
+$ V_{Sense} $ not grounded sensitive to leakage currents\\
+Bias resistor provides well defined DC-point. $ R_{Bias} $ needs to be large because of the highpass forming, corner frequency needs to be low enough compared to excitation freq. \\
+Periodic reset can also be used where $ V_{p+} = V_{p-} =0  $\\
+Correlated double sampling can also bes used:\\
+\includegraphics[width=\columnwidth]{images/corr_double_sample.png}\\
+\textbf{Bootstrapping: VoltAmp}\\
+\includegraphics[width=\columnwidth]{images/bootstrapping.png}\\
+$ C_{s 1}=C_{s 0}+\Delta C / 2 $$ C_{s 2}=C_{s 0}-\Delta C / 2 $, $ v_{out} $ becomes sensitive to parasitic capacitance\\
+Can be bootstrapped out with voltage buffer driving $ V_{shield} $\\
+$ v_{\text {out }}=\frac{\Delta C}{2 C_{\mathrm{s} 0}+C_{\mathrm{p} 1} +(C_{p2})} \cdot A_{v} \cdot v_{\text {in }} $ $ C_{p2} $ gets removed by $V_{shied} $\\
+Can also use TIA, the virtual ground helps with the parasitic capacitance, this also works in the charge amplifier\\
+\textbf{DiffReadoutChargeAmp:}
+\includegraphics[width=\columnwidth]{images/diff_readout_chargeamp.png}\\
+\textbf{Req $ V_{ex} $:}\\
+Error will propagate to output directly\\
+Accuracy more important for small $ \Delta C $\\
+Mismatch or drift will introduce errors\\
+Sinewave can be created with center-tapped transformer or active balun\\
+Rectangular witch switched excitation schemes\\
+\textbf{DiffReadoutChargeAmp:}
+\includegraphics[width=\columnwidth]{images/active_balun.png}\\
+$ V_{\text {outp }}=V_{\text {in }}=-V_{\text {outn }} $\\
+\textbf{Differential Capa sensing:}\\
+$ \Delta v_{x, \text { amp }} \approx-\frac{\Delta x}{x_{0}} \cdot V_{\mathrm{ex}} $\\
+\textbf{Resonant readout:}\\
+$ \omega_{\mathrm{LC}}=\frac{1}{\sqrt{L_{\text {coil }} \cdot C_{s}}} $\\
+\includegraphics[width=\columnwidth]{images/reso_readout_capa.png}\\
+\textbf{DoubleDiffReadout:}
+$ \Delta V_{\text {out }}=-\Delta V_{e x} \cdot(\frac{\Delta C_{s}}{C_{i}} \cdot \underbrace{\left[1-\frac{C_{s}}{C_{s}+C_{i}+C_{p}}\right]}_{\text {gain error }}-\underbrace{\frac{\Delta C_{i}+\Delta C_{p}}{C_{i}} \cdot \frac{C_{s}}{C_{s}+C_{i}+C_{p}}}_{\text {offset error }}) $
+\section{Differential Measurements}
+- Inherent rejection to common-mode interference ans noise\\
+- Wider Signal swing for a given supply voltage\\
+- Minimum effect of even order distortion including DC offset\\
+- Can lead to improved sensor linearity \\
+But respond to some degree to common mode signal\\
+\textbf{Ideal DiffPair:}\\
+CMMR: $  \triangleq 20 \cdot \log \left(\left|\frac{A_{\mathrm{DM}}}{A_{\mathrm{CM}-\mathrm{to}-\mathrm{DM}}}\right|\right) =20 \cdot \log \left(\frac{2 G_{\operatorname{mav}} \cdot r_{\mathrm{out}}}{\Delta R_{L} / R_{\mathrm{Lav}}+\Delta G_{\mathrm{m}} / G_{\mathrm{mav}}}\right] $\\
+PSRR: $ \triangleq 20 \cdot \log \left(\left|\frac{A_{\mathrm{DM}}}{A_{\mathrm{vDD}}}\right|\right)=20 \cdot \log \left(\left|\frac{A_{\mathrm{DM}}}{\Delta V_{\mathrm{out}} / \Delta \mathrm{VDD}}\right|\right) $
+Process variation causes mismatch between resistors and current source is not ideal\\
+Input referred offset is the voltage needed to get zero volts differential output\\
+IRO: $ \Delta V_{G}=V_{\mathrm{OS}}=-\frac{I_{\mathrm{Dav}}}{G_{\mathrm{mav}}} \cdot\left(\frac{\Delta R_{\mathrm{L}}}{R_{\mathrm{Lav}}}+\frac{\Delta \beta}{\beta_{\mathrm{av}}}\right)-\Delta V_{\mathrm{TO}} $
+OffsetVoltage: 10mV \textbf{MOS} ; 1mV \textbf{BJT}, 120 $ \mu  $, trimmed BJT
+\includegraphics[width=\columnwidth]{images/cmrr_diff_pair.png}\\
+$ CMRR \cdot V_{os} \approx G_{mav} \cdot r_{out} \cdot V_{OV} $, $ V_{OV} = \frac{I_{DAV}}{G_{mav}} $
+\textbf{PSRR:}\\
+$ \mathrm{PSRR}_{\mathrm{vDD}} \cong G_{\operatorname{mav}} R_{\mathrm{Lav}} /\left(g_{\mathrm{outM} 1,2} \cdot\left(\frac{g_{\mathrm{out}}}{G_{\mathrm{mav}}} \cdot \Delta R_{\mathrm{L}}-2 \cdot R_{\mathrm{Lav}} \cdot \frac{\Delta G_{\mathrm{m}}}{G_{\mathrm{mav}}}\right)\right. $\\
+$ \mathrm{PSRR}_{\mathrm{vss}} \cong G_{\operatorname{mav}} \cdot R_{\mathrm{Lav}} / g_{\mathrm{out}} \cdot\left(\Delta R_{\mathrm{L}}+R_{\mathrm{Lav}} \cdot \frac{\Delta G_{\mathrm{m}}}{G_{\mathrm{mav}}}\right) $
+\section{Modulation}
 
 
 

@@ -1,0 +1,45 @@
+\documentclass[5pt,landscape]{article}
+%\usepackage{fontspec}
+%\setsansfont{Roboto Condensed}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{hyperref}
+\usepackage{gensymb}
+\usepackage[sfdefault, condensed]{roboto}
+\geometry{top=0.3cm,left=0.3cm,right=0.3cm,bottom=0.3cm}
+
+
+\begin{document}
+Maximum input voltage in open loop configuration.
+$A_{0}=10^{5}, \mathrm{VDD}=-\mathrm{VSS}=10 \mathrm{~V}, V_{\text {out }, \text { range }}=18 \mathrm{~V} \Rightarrow V_{\text {in, } \max }=V_{\text {out,range }} / A_{0}=90 \mu \mathrm{V} \square V_{\text {offset }}$
+Opamps should be used in closed loop configuration max input
+Tradeoff between open loop gain and accuracy
+
+When using the opamp in feedback, stability becomes a concern!
+Stability criterion: Simplified Nyquist criterion (negative feedback) loop gain: $T(\omega)=\beta \cdot A_{o}(\omega) \Leftrightarrow$ linear
+phase margin: $\left|T\left(\omega_{1}\right)\right|=1 \Rightarrow \mathrm{PM}=180^{\circ}+\angle\left(T\left(\omega_{1}\right)\right)$
+gain margin: $\angle\left(T\left(\omega_{2}\right)\right)=-180^{\circ} \Rightarrow \mathrm{GM}=20 \cdot \log 10\left(\frac{1}{T\left(\omega_{2}\right)}\right)<1 \Leftrightarrow_{\text {stable }}$
+
+" Assuming $Z_{i} \mapsto \infty$
+$$
+V_{\mathrm{x}}=\beta \cdot V_{\text {out }}=\beta \cdot A(\omega) \cdot\left(V_{\text {in }}-V_{\mathrm{x}}\right)=\beta \cdot A(\omega) \cdot\left(V_{\text {in }}-\beta \cdot V_{\text {out }}\right)
+$$
+$\frac{V_{\text {out }}}{V_{\text {in }}}=\frac{A(\omega)}{1+\beta \cdot A(\omega)} \approx \frac{A(\omega)] 1}{\beta}$ the faiv is independent
+
+Very basic feedback theory
+$-A_{0}(\omega)$ is the forward gain (open loop gain)
+$-\beta$ is the feedback gain
+$-\beta \cdot A_{0}(\omega)$ is the loop gain
+$-1+\beta \cdot A_{o}:$ feedback factor
+- Closed-loop TF:
+
+$ A_{c}=\frac{V_{\text {out }}}{V_{\text {in }}}=\frac{A_{0}(\omega)}{1+\beta \cdot A_{o}(\omega)} $
+
+- There is a tradeoff between open loop gain and DC accuracy.
+Tradeoff of gain vs. bandwidth.
+Tradeoff of input and output resistance. (depending on the type of feedback)
+\end{document}
