@@ -320,7 +320,7 @@ $ C_{s 1}=C_{s 0}+\Delta C / 2 $$ C_{s 2}=C_{s 0}-\Delta C / 2 $, $ v_{out} $ be
 Can be bootstrapped out with voltage buffer driving $ V_{shield} $\\
 $ v_{\text {out }}=\frac{\Delta C}{2 C_{\mathrm{s} 0}+C_{\mathrm{p} 1} +(C_{p2})} \cdot A_{v} \cdot v_{\text {in }} $ $ C_{p2} $ gets removed by $V_{shied} $\\
 Can also use TIA, the virtual ground helps with the parasitic capacitance, this also works in the charge amplifier\\
-\textbf{DiffReadoutChargeAmp:}
+\textbf{DiffReadoutChargeAmp:}j
 \includegraphics[width=\columnwidth]{images/diff_readout_chargeamp.png}\\
 \textbf{Req $ V_{ex} $:}\\
 Error will propagate to output directly\\
@@ -357,10 +357,36 @@ $ CMRR \cdot V_{os} \approx G_{mav} \cdot r_{out} \cdot V_{OV} $, $ V_{OV} = \fr
 $ \mathrm{PSRR}_{\mathrm{vDD}} \cong G_{\operatorname{mav}} R_{\mathrm{Lav}} /\left(g_{\mathrm{outM} 1,2} \cdot\left(\frac{g_{\mathrm{out}}}{G_{\mathrm{mav}}} \cdot \Delta R_{\mathrm{L}}-2 \cdot R_{\mathrm{Lav}} \cdot \frac{\Delta G_{\mathrm{m}}}{G_{\mathrm{mav}}}\right)\right. $\\
 $ \mathrm{PSRR}_{\mathrm{vss}} \cong G_{\operatorname{mav}} \cdot R_{\mathrm{Lav}} / g_{\mathrm{out}} \cdot\left(\Delta R_{\mathrm{L}}+R_{\mathrm{Lav}} \cdot \frac{\Delta G_{\mathrm{m}}}{G_{\mathrm{mav}}}\right) $
 \section{Modulation}
-
-
-
-
+Stnontms: Coherent detectrion, synchronous demodulation, lock-in amplification, chopping\\
+All modulation techniques, square wave is called chopping\\
+Leads to better low freq. specification, smaller 1/f, bigger CMRR and PSRR\\
+\textbf{Trimming:} Measuring static error offset and gain and adjusting the value of a component to reduce the error to 0\\
+Low complexity, no bandwith limit, but reqs. measure equipment\\
+Also reqs. memory element\\
+\textbf{Dyn. offset cancel:}\\
+usually no measure eq. but more complex circuits, reduce bandwidth\\
+\textbf{AutoZeroing:}\\
+periodically measure offset and substract from input(time domain)\\
+\textbf{Chopping:}\\
+Modulate signal above 1/f noise(freq. domain)\\
+\textbf{Chopper Amps}\\
+\includegraphics[width=\columnwidth]{images/chop_amp.png}\\
+implemented with polarity reversing switch\\
+\textbf{Time-Domain-Chopping:}\\
+\includegraphics[width=\columnwidth]{images/time_domain_chopping.png}\\
+Complete suppression of 1/f noise if $ f_{chop} > 1/f $ corner freq., but up-modulated offset must be filtered out. loss of bandwidth and residual chopper ripple.
+\textbf{Charge Injection}\\
+Injected charge splits half-half\\
+Charge: $ Q=W \cdot L \cdot C_{\mathrm{ox}} \cdot\left[V_{\varphi}-V_{\mathrm{in}}-V_{\mathrm{T} 0}\left(\sqrt{V_{\mathrm{in}}}\right)\right] $\\
+Linear w.r.t to $ W\cdot L $ non-linear w.r.t. $ V_{in} $
+$ V_{\text {out }}=V_{\text {in }}(1+\underbrace{\frac{W \cdot L \cdot C_{o x}}{2 C_{L}}}_{\text {gain error }})-\underbrace{\frac{W \cdot L \cdot C_{o x}}{2 C_{L}} \cdot\left[V_{\varphi}-V_{T 0}\left(\sqrt{V_{\text {in }}}\right)\right]}_{\text {offset \& dostortion }} $\\
+\textbf{Clock feedthrough}\\
+Overlap capacitance of trans.: $ C_{OV} $\\
+$ \Delta V_{\text {out }}=\frac{C_{\text {ov }}}{C_{\text {ov }}+C_{L}} \cdot V_{\varphi} $\\
+Asymmetric clock duty cycle causes demodulation signal to have DC component which feeds through\\
+\textbf{Bandwidth gain acc}\\
+Limited applifier Bandwidth causes output signal to not be perfectly square, therefore less gain\\
+\textbf{AutoZeroing}\\
 
 
 
