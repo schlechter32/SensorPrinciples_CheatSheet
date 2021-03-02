@@ -386,7 +386,178 @@ $ \Delta V_{\text {out }}=\frac{C_{\text {ov }}}{C_{\text {ov }}+C_{L}} \cdot V_
 Asymmetric clock duty cycle causes demodulation signal to have DC component which feeds through\\
 \textbf{Bandwidth gain acc}\\
 Limited applifier Bandwidth causes output signal to not be perfectly square, therefore less gain\\
-\textbf{AutoZeroing}\\
+\textbf{AutoZeroing, LF Noise Reduce}\\
+Sampling unwanted signal during $ \Phi_1 $, storing, and subtracting during $ \Phi_2 $, input is disconnected during $ \Phi_1 $
+\includegraphics[width=\columnwidth]{images/auto_zero_analog_imp.png}\\
+Error stored on $ C_{AZ} $ will slowly leak away, $ C_{AZ} $ as large as possible\\
+\textbf{Mitigate Charge Inject.}\\
+-Use min size switch\\
+- \textbf{Diff Sampling:} Const offset and nonlin. is reduced\\
+-\textbf{Comp Switch:} NMOS and PMOS in parallel cancel opposite charge packets, can only occur for one $ V_{in} $, clock feedtrough can't be cancelled perfet because of different overlap capacitance.\\
+-\textbf{Dummy Switch:} Add a dummy switch of half size to such up injection of M1, but equal charging splitting rarely holds, but clock feedtrough is also mitigated\\
+-\textbf{BottomplateSampling:} Disconnect $ C_{AZ} $'s bottomplate from ground slightly before M1, $ C_{az} $ bottom plate is then floating when M1 is opened and no charge can be injected. Requires additional clock.\\
+\includegraphics[width=\columnwidth]{images/az_outcome.png}\\
+No ripples, like chopping, offset of a few $ \mu V $ can be reached, main problems switching spikes, leakage currents and finite gain\\
+\textbf{Correlated Double Sampling (CDS):}\\
+Special case of AZ\\
+Phase 1 (calib): $ V_1 = V(t_1) = A \cdot (0 + VOS) $\\
+Phase 2 (measure): $ V_2 = V(t_2) = A \cdot (V_{in} + V_{OS}) $\\
+$\Rightarrow (V_2 - V_1 ) = A \cdot V_{in} $\\
+\textbf{3 signal method:}\\
+\includegraphics[width=\columnwidth]{images/3signal_method.png}\\
+Find: $ V_{in} , A , V_{OS} $\\
+$ \begin{array}{l}
+\text { Phase 1: } V_{1}=A \cdot\left(V_{\text {in }}+V_{\text {OS }}\right) \\
+\text { Phase 2: } V_{2}=A \cdot\left(V_{\text {ref }}+V_{\text {OS }}\right) \\
+\text { Phase 1: } V_{3}=A \cdot V_{\text {OS }}
+\end{array} $\\
+Acc. is limited by ADC resolution\\
+\textbf{DEM:}\\
+Switch nomically identical components with a clock\\
+Acc. is limited by mismatch of switch resistance\\
+Significantly reduces average error\\
+2 Resistors in parallel:
+$ \begin{array}{l}
+R_{1}=R+\Delta R \\
+R_{2}=R-\Delta R
+\end{array} $ $ \rightarrow $\\
+$ Gain_{\mathrm{av}}=\frac{\left(1+\frac{R+\Delta R}{R-\Delta R}\right)+\left(1+\frac{R-\Delta R}{R+\Delta R}\right)}{2}=2 $\\
+LPF needed like chopping, can be easily combined\\
+Reduces bandwidth and need more components
+\section{Coheren Detection}
+synonyms: coherent detection, synchronous demodulation, lock-in amplification, chopping\\
+Like chopping but sinewave instead of rect.
+Good for:\\
+- low-bandwidth quasi static signals with high noise\\
+- if high dynamic range is req.\\
+Mems, Infrared, magnetic sensors, strain gauges. \\
+\textbf{Behaves like bandpass but isn't one}\\
+\includegraphics[width=\columnwidth]{images/coherent_setup.png}\\
+\textbf{Amplitude Synchron. detection:}\\
+$ u_{\mathrm{oM}}=G_{\mathrm{Amp}} \cdot G_{\mathrm{mult}} \cdot\left[\hat{u}_{i} \cdot \sin \left(\omega_{i} t\right) \cdot \hat{u}_{r} \sin \left(\omega_{r} t\right)\right] $\\
+$ u_{\mathrm{oM}}=G_{\mathrm{Amp}} \cdot G_{\mathrm{mult}} \cdot \frac{\widehat{u}_{i} \widehat{u}_{r}}{2} \cdot\left[1-\cos \left(2 \omega_{i} t\right)\right] $\\
+$ \overset{LP}{\Rightarrow} u_{\mathrm{oF}}=G_{\mathrm{LPF}} \cdot G_{\mathrm{Amp}} \cdot G_{\mathrm{mult}} \cdot \frac{\hat{u}_{i} \hat{u}_{r}}{2} $
+for $ \omega_r = \omega_i $
+\textbf{Phase:}
+$ u_{\mathrm{oM}}=G_{\mathrm{Amp}} \cdot G_{\mathrm{mult}} \cdot\left[\hat{u}_{i} \cdot \sin \left(\omega_{i} t+\varphi\right) \cdot \hat{u}_{r} \cdot \sin \left(\omega_{r} t\right)\right] $\\
+$ u_{\mathrm{oF}}=G_{\mathrm{LPF}} \cdot G_{\mathrm{Amp}} \cdot G_{\mathrm{mult}} \cdot \frac{\widehat{u}_{i} \widehat{u}_{r}}{2} \cdot \cos (\varphi) $\\
+Phase sensitive coherent detector\\
+\textbf{SNR:}
+LOD for $ 10nV/ \sqrt{Hz} $ white noise and $ f_{LPF} = 1Hz$ $ \rightarrow \frac{10nV}{\sqrt{Hz}} \cdot \sqrt{1Hz} = 10nV$\\
+\textbf{2 phase lock-in amp:}\\
+\includegraphics[width=\columnwidth]{images/two_phase_lockin.png}\\
+$A_0 = \begin{array}{l}
+u_{\mathrm{oF}, I}=G_{\mathrm{amp}} \cdot G_{\mathrm{mult}} \cdot G_{\mathrm{LPF}} \cdot \frac{\hat{u}_{i} \cdot \hat{u}_{r}}{2} \cdot \cos (\varphi) \\
+u_{\mathrm{oF}, \mathrm{Q}}=G_{\mathrm{amp}} \cdot G_{\mathrm{mult}} \cdot G_{\mathrm{LPF}} \cdot \frac{\hat{u}_{i} \cdot \hat{u}_{r}}{2} \cdot \sin (\varphi)
+\end{array} $\\
+$ \Delta \varphi =\begin{array}{l}
+\hat{u}_{i}=\frac{1}{G_{\text {amp }} \cdot G_{\text {mult }} \cdot G_{\text {LPF }}} \cdot \sqrt{u_{\text {of }, I}^{2}+u_{\text {oF }, Q}^{2}} \\
+\varphi=\tan ^{-1}\left(\frac{u_{\text {of }, Q}}{u_{\text {oF }, I}}\right)
+\end{array} $\\
+\section{DACs}
+Prerequisite for sampling is the Nyquist theorem to be able to perfectly reconstruct a band-limited signal. $ f_s \geq f_N = 2 \cdot f_b $\\
+\includegraphics[width=\columnwidth]{images/DAQ.png}\\
+\textbf{Sample and hold:}\\
+\includegraphics[width=\columnwidth]{images/sample_and_hold.png}\\
+Sample: S is closed $ V_{out} = V_{in} $\\
+Hold: S is open C holds $ V_{out} $\\
+$ I_{C1} $ with small $ Z_1 $ for fast charge of C\\
+$ I_{C2} $ with$ Z_{in}  $ for slow discharge of C\\
+S with small $ R_{on} $\\
+\textbf{Characeristics:}\\
+\includegraphics[width=\columnwidth]{images/sample_hold_char.png}\\
+Aperture time: time for switch to open\\
+Droop: discharge of capacitor\\
+Acquisition time: time to switch and charge capacitor\\
+Switching transients: voltage buffer ringing\\
+\textbf{Design C:}\\
+Large for small droop, small for fast charge\\
+Charge depends on $ R_{on} $ and $ Z_{out} $ or $ I_{out,max} $ of $ IC_1 $\\
+Large enough for sufficient small $ \dfrac{kT}{C} $
+\subsection{Static Errors}
+\includegraphics[width=\columnwidth]{images/dac_function.png}\\
+\textbf{Gain Error:} $ V_{\text {gain,error }}=V_{\text {MSB }_{\text {avg }}}-V_{\text {MSB }_{\text {ideal }}} $\\
+\textbf{Offset:} $ V_{\mathrm{os}}=V(000) $\\
+Does not affect linearity, easy to compensate\\
+\textbf{Diff nonlin (DNL):}\\
+Measure of nonuniformity, quantifies for each of the k binary input combinations the deviation of each step from the ideal stepsize of one LSB\\
+$ \mathrm{DNL}(k)=\frac{V(k)-V(k-1)-V_{\mathrm{LSB}}}{V_{\mathrm{LSB}}}=\frac{\Delta V(k)}{V_{\mathrm{LSB}}} $
+If DNL smaller than -1 the output is smaller than the previous and it's non-monotonic\\
+Monotonicity is critical for feedback: turns negative feedback into positive feedback\\
+Occurs most often when switching the MSB\\
+\textbf{Intefral nonlin (INL):}
+Deviation of the output val from the ideal val:\\
+$ I \mathrm{NL}(k)=\frac{V(k)-V_{\text {ideal }}(k)}{V_{\mathrm{LSB}}} $
+\subsection{Dynamic Errors}
+\textbf{Jitter:}
+Max jitter ($ \Delta t $) for error below one lsb:\\
+$ \Delta t<\frac{V_{\mathrm{LSB}}}{\pi f_{\mathrm{MAX}} V_{\mathrm{FS}}} \approx \frac{1}{2^{N} \pi f_{\mathrm{MAX}}} $\\
+\textbf{Glitches:}\\
+Turn on and turn off time not precisely synchronized. In the moment of switching one bit to another the value can briefly be both or none of the bits.
+\subsection{Implementation}
+\textbf{Resistorstring:}
+\includegraphics[width=\columnwidth]{images/dac_resistor_string.png}\\
+Simple voltage divider, inherently monotonic, amount of resistors proportional $ 2^N $, Area $ A \propto W_R \cdot L_R \cdot 2^N $\\
+\textbf{Binary weighted resisitve voltage divider}\\
+Inverting summing amplifier\\
+\includegraphics[width=\columnwidth]{images/dac_binary_weighted.png}\\
+For each bit $ i $: $ V_{\text {out }, \mathrm{i}}=d_{i} \cdot \frac{R}{2^{i+1} R}=d_{i} \cdot \frac{1}{2^{i+1}}, \quad i=0, . ., N-1, d_{i} \in\{0,1\} $\\
+$ V_{\text {out }}=\sum_{i=0}^{N-1} V_{\text {out,i }}=V_{\text {ref }} \sum_{i=0}^{N-1} d_{i} \cdot \frac{1}{2^{i+1}}, \quad d_{i} \in\{0,1\} $\\
+\textbf{Binary weighted current sources:}\\
+$ V_{\text {out }}=I_{\text {out }} R=R \sum_{i=0}^{N-1}\left(b_{i} I_{0}\right)=R I_{0} \sum_{i=0}^{N-1} b_{i} \text { with } b_{i} \in\left\{0,2^{i}\right\} $\\
+Sources can be implemented as current mirror\\
+\includegraphics[width=\columnwidth]{images/dac_binary_current_sources.png}
+Binary DACS: few number of components, large ratios of resistors, currents and switches, monotonicity not guaranteed, not linear, bas acc, need precise matching, prone to glitches, large portion switches.\\
+\textbf{Thermometer wighted:}\\
+Current steering DAC, reduced glitches, monotonic, $ 2^N $ sources, binary to thermometer decoder needed\\
+$ \begin{array}{|l|l|l|l|l|l|}
+\hline \mathrm{D} & b_{1} & b_{2} & t_{2} & t_{1} & t_{0} \\
+\hline 0 & 0 & 0 & 0 & 0 & 0 \\
+\hline 1 & 0 & 1 & 0 & 0 & 1 \\
+\hline 2 & 1 & 0 & 0 & 1 & 1 \\
+\hline 3 & 1 & 1 & 1 & 1 & 1 \\
+\hline
+\end{array} $
+Same topology as binary weighted but sources are not weighted just $ I_0 $\\
+\textbf{R2R-Ladder:}\\
+\includegraphics[width=\columnwidth]{images/dac_r2r_ladder.png}
+Branch current: $ I=-\frac{V_{\text {ref }}}{2 R+(2 R \| 2 \mathrm{R})}=-\frac{V_{\text {ref }}}{3 R} $\\
+$ V_{\text {out }, \mathrm{i}}=-d_{i} \frac{I}{2^{i+1}} \cdot 3 R=V_{\text {ref }} \cdot d_{i} \cdot \frac{1}{2^{i+1}} $\\
+$ V_{\text {out }}=\sum_{i=0}^{N-1} V_{\text {out,i }}=V_{\text {ref }} \cdot \sum_{i=0}^{N-1} d_{i} \cdot \frac{1}{2^{i+1}} $\\
+\textbf{Inverse R2R-Ladder:}\\
+\includegraphics[width=\columnwidth]{images/dac_inverse_r2r.png}\\
+$ V_{\text {out,i }}=-d_{i} \cdot \frac{V_{\text {ref }} /(2 R)}{2^{i}} \cdot R=V_{\text {ref }} \cdot d_{i} \cdot \frac{1}{2^{i+1}} $\\
+$ V_{\text {out }}=\sum_{i=0}^{N-1} V_{\text {out }, \mathrm{i}}=V_{\text {ref }} \cdot \sum_{i=0}^{N-1} d_{i} \cdot \frac{1}{2^{i+1}} $\\
+\textbf{Bin weighted Cap. volt divider:}\\
+$ V_{\text {out,i }}=d_{i} \cdot \frac{C_{0} / 2^{i+1}}{C_{0}} \cdot V_{\text {ref }}, \quad d_{i} \in\{0,1\}, i=0 . ., N-1 $\\
+$ V_{\text {out }}=\sum_{i=0}^{N-1} V_{\text {out }, i}=V_{\text {ref }} \sum_{i=0}^{N-1} d_{i} \cdot \frac{1}{2^{i+1}} V_{\text {out }, i} \quad \text { where } d_{i} \in\{0,1\} $
+Capas are weighted in the denominator, but otherwise topology same as 
+\includegraphics[width=\columnwidth]{images/dac_capa_volt_div.png}
+\textbf{Realization with less capas:}\\
+\includegraphics[width=\columnwidth]{images/dac_less_capa.png}\\
+Switch between lsb and msb group reset and load
+$ V_{out} = \alpha_{right} \cdot V_{ref} $
+$ \alpha_{\text {right }}=\sum_{i=1}^{N_{\text {right }}} d_{\text {i,right }} \text { with } d_{\text {i,right }} \in\left\{0,2^{-i}\right\} $
+$ V_{out} =\frac{\alpha_{\text {left }} V_{\text {ref }}}{16} $\\
+$ \alpha_{\text {left }}=\sum_{i=1}^{N} d_{\text {i,left }} \quad \text { with } \quad d_{\text {i,left }} \in\left\{0,2^{-i}\right\} $\\
+\textbf{PWM DAC:}\\
+\includegraphics[width=\columnwidth]{images/dac_pwm.png}\\
+\textbf{Segmented DAC:}\\
+\includegraphics[width=\columnwidth]{images/dac_segemented.png}\\
+Course DAC(MSBs) feeds fine DAC (LSBs), matching needs to be instead $ 2^10 $ for 10 bit only $ 2 \cdot 2^5 $\\
+\textbf{Current steering DAC with dyn calib:}\\
+\includegraphics[width=\columnwidth]{images/dac_auto_calib.png}\\
+Each source supposed to have $ I_{ref} $, Assume one only has $ 0.9 I_{Ref} $\\
+Calib phase: $ V_{GS1} $ settles so that $ Q_1 $ draws $ 0.1 I_{Ref} $\\
+Operat. Phase: $ Q_1 $ calibs. so that $ I_{d1} = I_{ref} $
+
+
+
+
+
+
+
+
 
 
 
@@ -424,3 +595,4 @@ Limited applifier Bandwidth causes output signal to not be perfectly square, the
 
 
 
+ 
