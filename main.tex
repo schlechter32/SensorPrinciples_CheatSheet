@@ -1,4 +1,4 @@
-\documentclass[5pt,landscape]{article}
+\documentclass[5pt]{article}
 %\usepackage{fontspec}
 %\setsansfont{Roboto Condensed}
 \usepackage{multicol}
@@ -10,7 +10,7 @@
 \usepackage{hyperref}
 \usepackage{gensymb}
 \usepackage[sfdefault, condensed]{roboto}
-\geometry{top=0.3cm,left=0.3cm,right=0.3cm,bottom=0.3cm}
+\geometry{top=0.1cm,left=0.1cm,right=0.1cm,bottom=0.2cm}
 %I would do the following,
 %1. Review the lectures for the theoretical parts (this is the multiple-choice questions)
 %2. How the open loop gain and the closed loop gain are linked to each other and which open loop gain you need for a certain accuracy, how to get the gain in dB
@@ -66,7 +66,7 @@
 \begin{document}
 \raggedright
 \footnotesize
-\begin{multicols*}{5}
+\begin{multicols*}{4}
 
 
 % multicol parameters
@@ -89,7 +89,7 @@
 \includegraphics[width = \columnwidth]{images/generic_sensor_interface.png}
 \subsection{OPAMP Basics}
 \subsection{Opamps in feedback}
-\includegraphics[width = \columnwidth]{images/opampfeedbacl.png}
+\includegraphics[width =0.7\columnwidth]{images/opampfeedbacl.png}\\
 Gain : $ T(\omega) =\beta \cdot A_0 (\omega $) \\
 DC gain sets the acc. of the closed loop amplifier.
 Phase Margin: $PM =180 \degree + \angle (T(\omega_1)|_{  |T(\omega_1)| = 1 } $\\
@@ -99,6 +99,7 @@ Gain margin:$ GM = 20 \cdot log_{10} (\frac{1}{T(\omega_2)})|_{\angle (T(\omega_
 $  V_{x}=\beta \cdot V_{\text {out }}=\beta \cdot A(\omega) \cdot\left(V_{\text {in }}-V_{x}\right)=\beta \cdot A(\omega) \cdot\left(V_{\text {in }}-\beta \cdot V_{\text {out }}\right)$\\
 $ A_{CL} =\frac{V_{\text {out }}}{V_{\text {in }}}=\frac{A(\omega)}{1+\beta \cdot A(\omega)} \stackrel{A(\omega)] \gg 1}{\approx} \frac{1}{\beta} $\\
 \textbf{Acc and gain}\\
+$ \epsilon = \frac{A_{CL,nom}-A_{CL}}{A_{CL,nom}} $
 $ A_{OL}(Error, A_CL) = A_{CL} \cdot (\frac{1}{Error} -1)$\\
 \textbf{Negative Feedback and linear operation}\\
 $ A(\omega) \gg 1 \Rightarrow $ virtual short at the input $ \Delta V \approx 0  $ \\
@@ -111,7 +112,7 @@ $ Z_i \rightarrow \infty \Rightarrow i_{oa} \approx 0 $ \\
  \textbf{Dynamic range(DR):} ratio of max and min amplitude within inaccuracy levels.\\
  Lower limit: Noise floor\\
  Upper Limit: Distortion
- \includegraphics[width = \columnwidth]{images/lod_dr.png}\\
+ \includegraphics[width = 0.8\columnwidth]{images/lod_dr.png}\\
  \textbf{Errortypes}:\\
 \textbf{ Deterministic:} source loading, offset, gain error $ \rightarrow $
 Removed by calibration\\
@@ -137,6 +138,7 @@ Effect of an error-source on the output\\
 Equivalent effect of the error-source on the input\\
 \includegraphics[width = \columnwidth]{images/error_referral.png}\\
 Linearize system\\
+$ y_{t}=f\left(x_{0}\right)+\left.\frac{\mathrm{d} f}{\mathrm{~d} x}\right|_{x_{0}} \cdot\left(x-x_{0}\right) $
 Apply superposition principle\\
 Find TF from ES to output for all sources $ y:H_{y,ES} \Rightarrow y_{\text {out }, \epsilon_{2}}=H_{y, \epsilon_{2}} \cdot \epsilon_{2}$\\
 \textbf{Compute sum:}\\
@@ -146,7 +148,7 @@ Random Error: $ y_{\text {out,tot }}=\sqrt{\sum_{i=1}^{N} y_{\text {out,i }}^{2}
 Refer result back to input wit $ H_{y,x}: x_{\epsilon_{2}}=\frac{y_{\text {out }, \epsilon_{2}}}{H_{y, x}}=H_{y, \epsilon_{2}} \cdot \frac{\epsilon_{2}}{H_{y, x}} $\\
 \textbf{Wiener-Khintchine-Theorem:}\\
 $ PSD =  S_{y}(f)=|H(f)|^{2} \cdot S_{x}(f)$
-\includegraphics[width = \columnwidth]{images/noise_bode.png}
+\includegraphics[width = 0.8\columnwidth]{images/noise_bode.png}
 \subsection{Random Process}
 \textbf{WSS:} Wide sense stationary: Mean is independent of time t and the ACF only depends on $  \tau = t_2 - t_1 $\\
 \textbf{ACF:} Power spectrum of white noise can be extracted from ACF with fourier transform\\
@@ -218,7 +220,7 @@ Noise, sensitivity to unintended quantities, Noise, EMI\\
 %E_{\text {chem }, \mathrm{os}} \\
 %E_{\text {elec }, \mathrm{os}}
 %\end{array}\right) $}
-\includegraphics[width = \columnwidth]{images/transconduction_matrix.png}\\
+%\includegraphics[width = \columnwidth]{images/transconduction_matrix.png}\\
 Tandem transducers: Multiple steps to target domain.\\
 cross-sensitivity, sensitivity to undesired quantity
 \subsection{Sensor classification:}
@@ -245,7 +247,7 @@ Change in geometry under mechanical stress produces associated resistance change
 Volum. == const. $ \rightarrow $ $ \frac{\partial V}{V_{0}}=\frac{L_{0}}{V_{0}} \cdot \partial A+\frac{A_{0}}{V_{0}} \cdot \partial L \wedge \frac{\partial V}{V_{0}}=0 \Rightarrow \frac{\partial A}{A_{0}}=-\frac{\partial L}{L_{0}}  $ $ \rightarrow $ $ \frac{\partial R}{R_{0}}=\frac{\partial \rho}{\rho_{0}}+2 \frac{\partial L}{L_{0}} $ $ \rightarrow $$ \frac{\partial R}{R_{0}}=\alpha \cdot \frac{\partial L}{L_{0}}+2 \frac{\partial L}{L_{0}}=\underbrace{(\alpha+2)}_{\triangleq k} \cdot \frac{\partial L}{L_{0}} $\\
 k: gauge factor\\
 $ \alpha $ proportionality factor $  \frac{\partial \rho}{\rho_{0}} \propto \frac{\partial L}{L_{0}}$
-\includegraphics[width = \columnwidth]{images/strain-gauge.png}
+\includegraphics[width =0.6 \columnwidth]{images/strain-gauge.png}
 \subsection{Readout resistive sensors}
 Use a half bridge resistive divider\\
 top element sensing resistor
@@ -253,7 +255,7 @@ $ \frac{v_{\text {out }}}{V_{\text {bias }}}=\frac{R}{2 R+\Delta R} \Leftrightar
 Full bridge to remove offset, 2 sensing elements more sensitive,\\
 remove nonlinearity by implementing differential measurements\\
 Best use 4point full bridge, no nonlinearity\\
-\includegraphics[width = \columnwidth]{images/4point-fullbridge.png}\\
+\includegraphics[width = 0.8\columnwidth]{images/4point-fullbridge.png}\\
 $ V_{\mathrm{diff}}=v_{2}-v_{1}=\frac{\Delta R}{R} \cdot V_{\mathrm{bias}} $\\
 Sensitivity $ S = 45mV/V$ excitation for 1V input\\
 Accuracy $ A = \frac{v_{\mathrm{diff}}\left(\frac{\Delta R}{R}\right)-V_{\mathrm{diff}, \text { lin }}\left(\frac{\Delta R}{R}\right)}{V_{\mathrm{diff}}\left(\frac{\Delta R}{R}\right)} $ \\
@@ -272,7 +274,7 @@ Deviation from the ideal bridge
 Ideally $ A_{cm} $ is 0 or $ A_{cm} \ll  A_{dm}$\\
 Commonmode rejection ratio(CMRR): $ \mathrm{CMRR} \triangleq\left|\frac{A_{\mathrm{DM}}}{A_{\mathrm{CM}}}\right|=\left|\frac{\mathrm{d} v_{\mathrm{out}} / \mathrm{d} v_{\mathrm{inDM}}}{\mathrm{d} v_{\mathrm{out}} / \mathrm{d} v_{\mathrm{inCM}}}\right| $\\
 Often in \textbf{dB}\\
-\textbf{Opampbase difference aplifier:}\\
+\textbf{Opampbase difference amplifier:}\\
 \includegraphics[width=\columnwidth]{images/diffbased_opamp.png}\\
 1st: $ A(s) = \infty, R_2 = R_2' = \alpha \cdot R_1 = \alpha R_1'$\\
 $ A_{DM} = - \alpha, A_{CM} =0, CMRR = \infty $ \\
@@ -308,24 +310,25 @@ Idea: Hall voltage is in phase and gradient caused offsets are than $ 180 \degre
 Sense and current ports are switched every clock cycle\\
 Idea: A DC component equal to the offset and a frequency component proportional to the hall voltage is produced \textbf{(Fourier Expansion of a square wave})\\
 By modulating the information to the clock frequency noise and offset are greatly mitigated.\\
-\includegraphics[width=\columnwidth]{images/switched_hall_system.png}
 Multiplying by 1 and -1 to demodulate back to low frequency. \\
 Low pass stage to remove signal around the 2nd harmonic\\
 This allow to see the base noise floor of the sensor not 1/f noise.\\
 In the conventional implementation 2 bias currents are used in the low power configuration the bias form the plate is reused for the amplifier.\\
+\includegraphics[width=\columnwidth]{images/switched_hall_system.png}
 \subsection{Temperature Sensors}
 Seebeck effect: Convert temp. gradient to electromotive force
 $ F(T)  \hat{=} \int_{T_{stand.}}^{T} (S_{+} (T') - S_- (T')) dT'   $ $ \rightarrow $ $ E_{emf} = F(T_{sense} - F(T_{ref})$
 \textbf{Temperature stable references:}\\
 $ V_{\mathrm{REF}}(T)=V_{\mathrm{CTAT}}(T)+K \cdot V_{\mathrm{PTAT}}(T) $\\
-Bandgap reference:
-\includegraphics[width=\columnwidth]{images/bandgapreference.png}
 PTAT: Proportional to absolute temperature\\
 CTAT: Complementary to absolute temperature\\
 Scale one slope and add the function for a temp. constant reference\\
 This can be built with a diode or a BJT with a shorted base and collector\\
-Butt current is also temperature dependent so use diff pair.
-\includegraphics[width=\columnwidth]{images/gen_ptat_ctat.png}
+Butt current is also temperature dependent so use diff pair.\\
+\textbf{Bandgap reference:}
+\includegraphics[width=0.8\columnwidth]{images/bandgapreference.png}
+
+\includegraphics[width=0.8\columnwidth]{images/gen_ptat_ctat.png}
 $ V_{\text {PTAT }}=\Delta V_{\text {EB }}=V_{\text {EB1 }}-V_{\text {EB2 }} \approx $\\
 $ \frac{k T}{q} \cdot \ln \left[\frac{I_{q} \cdot I_{S}^{\prime} \cdot A_{E 2}}{I_{S}^{\prime} \cdot A_{E 1} \cdot I_{q}}\right]=\frac{k T}{q} \cdot \ln \left[\frac{A_{E 2}}{A_{E 1}}\right] $\\
 Scale currents or diodes to make equal bias\\
@@ -342,11 +345,11 @@ Parallel: $ V_{\mathrm{REF}}=\left(I_{\mathrm{PTAT}}+I_{\mathrm{CTAT}}\right) \c
 2 non-linear: $ \Delta C =  \frac{\varepsilon \cdot A}{h} \cdot \frac{\Delta z / h}{1+\Delta z h} \approx \frac{\varepsilon \cdot A}{h^{2}} \cdot \Delta z$\\
 3 reduced non-linear with diff readout: $ \Delta C = \varepsilon \cdot \frac{A}{h} \cdot\left(\frac{2 \cdot \Delta z / h}{1-[\Delta z / h]^{2}}\right)=\frac{2 \cdot \varepsilon \cdot A}{h^{2}} \cdot \Delta z $\\
 \textbf{OpenLoop readout:} \\
-\includegraphics[width=\columnwidth]{images/amplifier_capa.png}
 \textbf{ChargeAmp:}$ V_{\text {out }}=\frac{C_{\text {sense }}}{C_{\mathrm{FB}}} \cdot V_{\mathrm{ex}} $
 \textbf{ChargeAmpNonideal:}$ \frac{V_{\text {out }}}{V_{\text {in }}}=-\frac{j \omega \cdot R_{\mathrm{FB}} C_{\text {in }}}{\left(1+\frac{j \omega}{\mathrm{GBW}}\right) \cdot\left(1+\frac{j \omega}{\omega_{\mathrm{FB}}}\right)} $\\
 \textbf{VoltAmp:} $ v_{\text {out }}=A_{v} \cdot \frac{C_{\text {sense }}}{C_{\text {sense }}+C_{\text {ref }}} V_{\text {ex }} $\\
 \textbf{TransImpAmp:} $ v_{\text {out }}=s \cdot R_{\mathrm{FB}} C_{\text {sense }} \cdot v_{e x} $\\
+\includegraphics[width=\columnwidth]{images/amplifier_capa.png}\\
 \includegraphics[width=\columnwidth]{images/dc_pot_capa.png}\\
 $ V_{Sense} $ not grounded sensitive to leakage currents\\
 Bias resistor provides well defined DC-point. $ R_{Bias} $ needs to be large because of the highpass forming, corner frequency needs to be low enough compared to excitation freq. \\
@@ -391,12 +394,12 @@ PSRR: $ \triangleq 20 \cdot \log \left(\left|\frac{A_{\mathrm{DM}}}{A_{\mathrm{v
 Process variation causes mismatch between resistors and current source is not ideal\\
 Input referred offset is the voltage needed to get zero volts differential output\\
 IRO: $ \Delta V_{G}=V_{\mathrm{OS}}=-\frac{I_{\mathrm{Dav}}}{G_{\mathrm{mav}}} \cdot\left(\frac{\Delta R_{\mathrm{L}}}{R_{\mathrm{Lav}}}+\frac{\Delta \beta}{\beta_{\mathrm{av}}}\right)-\Delta V_{\mathrm{TO}} $
-OffsetVoltage: 10mV \textbf{MOS} ; 1mV \textbf{BJT}, 120 $ \mu  $, trimmed BJT
-\includegraphics[width=\columnwidth]{images/cmrr_diff_pair.png}\\
+OffsetVoltage: 10mV \textbf{MOS} ; 1mV \textbf{BJT}, 120 $ \mu  $, trimmed BJT\\
 $ CMRR \cdot V_{os} \approx G_{mav} \cdot r_{out} \cdot V_{OV} $, $ V_{OV} = \frac{I_{DAV}}{G_{mav}} $
 \textbf{PSRR:}\\
-$ \mathrm{PSRR}_{\mathrm{vDD}} \cong G_{\operatorname{mav}} R_{\mathrm{Lav}} /\left(g_{\mathrm{outM} 1,2} \cdot\left(\frac{g_{\mathrm{out}}}{G_{\mathrm{mav}}} \cdot \Delta R_{\mathrm{L}}-2 \cdot R_{\mathrm{Lav}} \cdot \frac{\Delta G_{\mathrm{m}}}{G_{\mathrm{mav}}}\right)\right. $\\
+$ \mathrm{PSRR}_{\mathrm{vDD}} \cong \frac{G_{\operatorname{mav}} R_{\mathrm{Lav}} }{  \left(g_{\mathrm{outM} 1,2} \cdot\left(\frac{g_{\mathrm{out}}}{G_{\mathrm{mav}}} \cdot \Delta R_{\mathrm{L}}-2 \cdot R_{\mathrm{Lav}} \cdot \frac{\Delta G_{\mathrm{m}}}{G_{\mathrm{mav}}}\right)\right.} $\\
 $ \mathrm{PSRR}_{\mathrm{vss}} \cong G_{\operatorname{mav}} \cdot R_{\mathrm{Lav}} / g_{\mathrm{out}} \cdot\left(\Delta R_{\mathrm{L}}+R_{\mathrm{Lav}} \cdot \frac{\Delta G_{\mathrm{m}}}{G_{\mathrm{mav}}}\right) $
+\includegraphics[width=0.8\columnwidth]{images/cmrr_diff_pair.png}\\
 \section{Modulation}
 Synonyms: Coherent detection, synchronous demodulation, lock-in amplification, chopping\\
 All modulation techniques, square wave is called chopping\\
@@ -429,7 +432,7 @@ Asymmetric clock duty cycle causes demodulation signal to have DC component whic
 Limited applifier Bandwidth causes output signal to not be perfectly square, therefore less gain\\
 \textbf{AutoZeroing, LF Noise Reduce}\\
 Sampling unwanted signal during $ \Phi_1 $, storing, and subtracting during $ \Phi_2 $, input is disconnected during $ \Phi_1 $
-\includegraphics[width=\columnwidth]{images/auto_zero_analog_imp.png}\\
+\includegraphics[width=0.8\columnwidth]{images/auto_zero_analog_imp.png}\\
 Error stored on $ C_{AZ} $ will slowly leak away, $ C_{AZ} $ as large as possible\\
 \textbf{Mitigate Charge Inject.}\\
 -Use min size switch\\
@@ -497,16 +500,15 @@ $ \Delta \varphi =\begin{array}{l}
 \end{array} $\\
 \section{DACs}
 Prerequisite for sampling is the Nyquist theorem to be able to perfectly reconstruct a band-limited signal. $ f_s \geq f_N = 2 \cdot f_b $\\
-\includegraphics[width=\columnwidth]{images/DAQ.png}\\
+%\includegraphics[width=\columnwidth]{images/DAQ.png}\\
 \textbf{Sample and hold:}\\
-\includegraphics[width=\columnwidth]{images/sample_and_hold.png}\\
+\includegraphics[width=0.9\columnwidth]{images/sample_and_hold.png}\\
 Sample: S is closed $ V_{out} = V_{in} $\\
 Hold: S is open C holds $ V_{out} $\\
 $ I_{C1} $ with small $ Z_1 $ for fast charge of C\\
 $ I_{C2} $ with$ Z_{in}  $ for slow discharge of C\\
 S with small $ R_{on} $\\
 \textbf{Characeristics:}\\
-\includegraphics[width=\columnwidth]{images/sample_hold_char.png}\\
 Aperture time: time for switch to open\\
 Droop: discharge of capacitor\\
 Acquisition time: time to switch and charge capacitor\\
@@ -516,7 +518,8 @@ Large for small droop, small for fast charge\\
 Charge depends on $ R_{on} $ and $ Z_{out} $ or $ I_{out,max} $ of $ IC_1 $\\
 Large enough for sufficient small $ \dfrac{kT}{C} $
 \subsection{Static Errors}
-\includegraphics[width=\columnwidth]{images/dac_function.png}\\
+\includegraphics[width=0.8\columnwidth]{images/sample_hold_char.png}\\
+\includegraphics[width=0.9\columnwidth]{images/dac_function.png}\\
 \textbf{Gain Error:} $ V_{\text {gain,error }}=V_{\text {MSB }_{\text {avg }}}-V_{\text {MSB }_{\text {ideal }}} $\\
 \textbf{Offset:} $ V_{\mathrm{os}}=V(000) $\\
 Does not affect linearity, easy to compensate\\
@@ -537,7 +540,7 @@ $ \Delta t<\frac{V_{\mathrm{LSB}}}{\pi f_{\mathrm{MAX}} V_{\mathrm{FS}}} \approx
 Turn on and turn off time not precisely synchronized. In the moment of switching one bit to another the value can briefly be both or none of the bits.
 \subsection{Implementation}
 \textbf{Resistorstring:}
-\includegraphics[width=\columnwidth]{images/dac_resistor_string.png}\\
+\includegraphics[width=0.8\columnwidth]{images/dac_resistor_string.png}\\
 Simple voltage divider, inherently monotonic, amount of resistors proportional $ 2^N $, Area $ A \propto W_R \cdot L_R \cdot 2^N $\\
 \textbf{Binary weighted resisitve voltage divider}\\
 Inverting summing amplifier\\
@@ -558,7 +561,7 @@ $ \begin{array}{|l|l|l|l|l|l|}
 \hline 2 & 1 & 0 & 0 & 1 & 1 \\
 \hline 3 & 1 & 1 & 1 & 1 & 1 \\
 \hline
-\end{array} $
+\end{array} $\\
 Same topology as binary weighted but sources are not weighted just $ I_0 $\\
 \textbf{R2R-Ladder:}\\
 \includegraphics[width=\columnwidth]{images/dac_r2r_ladder.png}
