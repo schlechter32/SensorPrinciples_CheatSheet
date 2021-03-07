@@ -338,9 +338,9 @@ Series: $ V_{\mathrm{REF}}=I_{\mathrm{PTAT}} \cdot R_{2}+V_{\mathrm{CTAT}}=\frac
 Parallel: $ V_{\mathrm{REF}}=\left(I_{\mathrm{PTAT}}+I_{\mathrm{CTAT}}\right) \cdot R_{3}=\frac{R_{3}}{R_{1}} \cdot V_{\mathrm{PTAT}}+\frac{R_{3}}{R_{2}} \cdot V_{\mathrm{CTAT}} $\\
 \subsection{Capa. Sensor Readout}
 \includegraphics[width=\columnwidth]{images/capa_sensors.png}
-1: $ \Delta C=C-C_{0}=\varepsilon \cdot \frac{W}{h} \cdot \Delta x $\\
-2: $ \Delta C =  \frac{\varepsilon \cdot A}{h} \cdot \frac{\Delta z / h}{1+\Delta z h} \approx \frac{\varepsilon \cdot A}{h^{2}} \cdot \Delta z$\\
-3: $ \Delta C = \varepsilon \cdot \frac{A}{h} \cdot\left(\frac{2 \cdot \Delta z / h}{1-[\Delta z / h]^{2}}\right)=\frac{2 \cdot \varepsilon \cdot A}{h^{2}} \cdot \Delta z $\\
+1 linear: $ \Delta C=C-C_{0}=\varepsilon \cdot \frac{W}{h} \cdot \Delta x $\\
+2 non-linear: $ \Delta C =  \frac{\varepsilon \cdot A}{h} \cdot \frac{\Delta z / h}{1+\Delta z h} \approx \frac{\varepsilon \cdot A}{h^{2}} \cdot \Delta z$\\
+3 reduced non-linear with diff readout: $ \Delta C = \varepsilon \cdot \frac{A}{h} \cdot\left(\frac{2 \cdot \Delta z / h}{1-[\Delta z / h]^{2}}\right)=\frac{2 \cdot \varepsilon \cdot A}{h^{2}} \cdot \Delta z $\\
 \textbf{OpenLoop readout:} \\
 \includegraphics[width=\columnwidth]{images/amplifier_capa.png}
 \textbf{ChargeAmp:}$ V_{\text {out }}=\frac{C_{\text {sense }}}{C_{\mathrm{FB}}} \cdot V_{\mathrm{ex}} $
@@ -357,9 +357,11 @@ Correlated double sampling can also bes used:\\
 \includegraphics[width=\columnwidth]{images/bootstrapping.png}\\
 $ C_{s 1}=C_{s 0}+\Delta C / 2 $$ C_{s 2}=C_{s 0}-\Delta C / 2 $, $ v_{out} $ becomes sensitive to parasitic capacitance\\
 Can be bootstrapped out with voltage buffer driving $ V_{shield} $\\
-$ v_{\text {out }}=\frac{\Delta C}{2 C_{\mathrm{s} 0}+C_{\mathrm{p} 1} +(C_{p2})} \cdot A_{v} \cdot v_{\text {in }} $ $ C_{p2} $ gets removed by $V_{shied} $\\
+$ v_{\text {out }}=\frac{\Delta C}{2 C_{\mathrm{s} 0}+C_{\mathrm{p} 1} +(C_{p2})} \cdot A_{v} \cdot v_{\text {in }} $ \\
+Gain of output is reduced\\
+ $C_{p2} $ gets removed by $V_{shied} $\\
 Can also use TIA, the virtual ground helps with the parasitic capacitance, this also works in the charge amplifier\\
-\textbf{DiffReadoutChargeAmp:}j
+\textbf{DiffReadoutChargeAmp:}
 \includegraphics[width=\columnwidth]{images/diff_readout_chargeamp.png}\\
 \textbf{Req $ V_{ex} $:}\\
 Error will propagate to output directly\\
