@@ -87,6 +87,8 @@
 % --------------------------------------------------------------------------------------
 \subsection{A generic sensor interface}
 \includegraphics[width = \columnwidth]{images/generic_sensor_interface.png}
+\textbf{Decibel:} $\frac{V_{dB}}{V_0}=20 log_{10}(V/V_0)$, $\frac{P_{dB}}{P_0}=10 log_{10}(P/P_0)$,\\
+$log_{10}(2)\approx 0,3$, $log_{10}(10)= 1$\\
 \subsection{OPAMP Basics}
 \subsection{Opamps in feedback}
 \includegraphics[width =0.7\columnwidth]{images/opampfeedbacl.png}\\
@@ -138,7 +140,8 @@ Effect of an error-source on the output\\
 Equivalent effect of the error-source on the input\\
 \includegraphics[width = \columnwidth]{images/error_referral.png}\\
 Linearize system\\
-$ y_{t}=f\left(x_{0}\right)+\left.\frac{\mathrm{d} f}{\mathrm{~d} x}\right|_{x_{0}} \cdot\left(x-x_{0}\right) $
+$ y_{t}=f\left(x_{0}\right)+\left.\frac{\mathrm{d} f}{\mathrm{~d} x}\right|_{x_{0}} \cdot\left(x-x_{0}\right) $\\
+\textbf{Taylor Series:} $T_n(x, a)= \sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^{k}$\\
 Apply superposition principle\\
 Find TF from ES to output for all sources $ y:H_{y,ES} \Rightarrow y_{\text {out }, \epsilon_{2}}=H_{y, \epsilon_{2}} \cdot \epsilon_{2}$\\
 \textbf{Compute sum:}\\
